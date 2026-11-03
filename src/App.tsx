@@ -18,7 +18,59 @@ import { subscribeAccessories, ensureCloudInventorySeeded } from './services/clo
 
 function AppContent() {
   const { isLocked, unlockTerminal, currentRole } = useAuth();
-  const [activeTab, setActiveTab] = useState<ActiveTab>('pos');
+
+  const getInitialTab = (): ActiveTab => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.replace('#', '') as ActiveTab;
+      const validTabs: ActiveTab[] = [
+        'pos',
+        'phones',
+        'accessories',
+        'digital_finance',
+        'service_software',
+        'sales_history',
+        'expenses',
+        'analytics',
+        'users',
+      ];
+      if (validTabs.includes(hash)) return hash;
+    }
+    return 'pos';
+  };
+
+  const [activeTab, setActiveTabState] = useState<ActiveTab>(getInitialTab);
+
+  const setActiveTab = (tab: ActiveTab) => {
+    setActiveTabState(tab);
+    if (typeof window !== 'undefined') {
+      window.location.hash = tab;
+    }
+  };
+
+  // Dengarkan perubahan hash browser (Back / Forward button di GitHub Pages)
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '') as ActiveTab;
+      const validTabs: ActiveTab[] = [
+        'pos',
+        'phones',
+        'accessories',
+        'digital_finance',
+        'service_software',
+        'sales_history',
+        'expenses',
+        'analytics',
+        'users',
+      ];
+      if (validTabs.includes(hash)) {
+        setActiveTabState(hash);
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   const [cart, setCart] = useState<CartItem[]>([]);
 
   // Inisialisasi seeding otomatis ke Cloud Firestore jika database cloud masih kosong saat aplikasi pertama kali deploy

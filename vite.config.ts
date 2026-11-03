@@ -14,6 +14,7 @@ const expressPlugin = (): Plugin => ({
 
 export default defineConfig(() => {
   return {
+    base: './',
     plugins: [react(), tailwindcss(), expressPlugin()],
     resolve: {
       alias: {
