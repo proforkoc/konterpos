@@ -1,0 +1,8 @@
+{
+  "name": "Remix KonterPOS - POS \u0026 Manajemen Usaha Konter Handphone",
+  "description": "Sistem Point of Sale (POS) dan Manajemen Toko Konter HP: Penjualan HP \u0026 IMEI, Aksesoris, Agen BRILink/Transfer Bank, Top Up E-Wallet, PPOB \u0026 Pulsa, Modul Servis Software HP, Laporan Keuangan Laba/Rugi, dan Cetak Struk Thermal 58mm/80mm.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,330 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #0f172a;
+    background-color: #f8fafc;
+    letter-spacing: -0.011em;
+    overflow-x: clip;
+    width: 100%;
+    max-width: 100vw;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Form & typography readability enhancements */
+  input, select, textarea, button {
+    font-family: inherit;
+    letter-spacing: inherit;
+  }
+
+  /* =========================================================================
+     UNIVERSAL INTERACTIVE CURSOR (POINTER)
+     Seragamkan seluruh elemen interaktif, tombol, tautan, form click, dan tab
+     menjadi ikon tangan (cursor: pointer) di seluruh aplikasi KonterPOS.
+     ========================================================================= */
+  button,
+  a,
+  [role="button"],
+  select,
+  summary,
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  input[type="file"],
+  label[for],
+  label:has(input[type="checkbox"]),
+  label:has(input[type="radio"]),
+  .cursor-pointer {
+    cursor: pointer !important;
+  }
+
+  button:disabled,
+  [role="button"][aria-disabled="true"],
+  input:disabled,
+  select:disabled,
+  .cursor-not-allowed {
+    cursor: not-allowed !important;
+  }
+
+  /* Interactive button states with crisp micro-interactions */
+  button, [role="button"], a {
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    touch-action: manipulation;
+  }
+
+  /* Custom Light Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+
+  /* Hide scrollbar utility */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  ::selection {
+    background-color: #e0e7ff;
+    color: #3730a3;
+  }
+  
+  .font-mono-receipt {
+    font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+  }
+}
+
+@keyframes smoothFadeIn {
+  from {
+    opacity: 0.92;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.tab-transition {
+  animation: smoothFadeIn 0.14s ease-out;
+}
+
+/* Interactive card & button utility classes */
+.btn-interactive {
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* Touch-friendly target helper (minimum 44x44px target) */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* =========================================================================
+   PRINT STYLES FOR THERMAL RECEIPT PRINTERS (58mm & 80mm)
+   - Sembunyikan SEMUA elemen website non-struk dengan display: none !important
+   - Hilangkan pagination ganda (single page receipt, anti-duplikat)
+   - Netralkan position fixed pada modal agar tidak diulang di setiap halaman
+   ========================================================================= */
+@media print {
+  /* 1. Sembunyikan seluruh UI luar, header, main content, dan navigasi */
+  header,
+  nav,
+  main,
+  footer,
+  aside,
+  .no-print,
+  #root > div > header,
+  #root > div > main,
+  #root > div > footer {
+    display: none !important;
+  }
+
+  /* 2. Reset html & body agar tingginya murni sesuai konten struk tunggal tanpa flow berlebih */
+  html,
+  body {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #root,
+  #root > div {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  /* 3. Netralkan overlay modal agar tidak menjadi position: fixed (anti-duplikasi per halaman cetak) */
+  .receipt-modal-overlay {
+    position: static !important;
+    inset: auto !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    overflow: visible !important;
+  }
+
+  .receipt-modal-container {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    overflow: visible !important;
+  }
+
+  .receipt-preview-wrapper {
+    display: block !important;
+    width: 100% !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    overflow: visible !important;
+  }
+
+  /* 4. Format struk tunggal (1 halaman presisi, page-break avoid) */
+  #thermal-receipt-area {
+    display: block !important;
+    visibility: visible !important;
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    margin: 0 auto !important;
+    padding: 4px !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11px !important;
+    line-height: 1.25 !important;
+    page-break-after: avoid !important;
+    page-break-before: avoid !important;
+    page-break-inside: avoid !important;
+    break-after: avoid !important;
+    break-before: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  #thermal-receipt-area * {
+    visibility: visible !important;
+  }
+
+  @page {
+    margin: 0;
+    size: auto;
+  }
+}
+
+/* =========================================================================
+   RESPONSIVE NAVBAR MEDIA QUERIES
+   - Sembunyikan horizontal navbar tabs pada layar tablet dan mobile (max-width: 1024px)
+   - Tampilkan rata tengah (centered) hanya pada layar desktop (min-width: 1025px)
+   ========================================================================= */
+@media (max-width: 1024px) {
+  .desktop-navbar-tabs {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .desktop-navbar-tabs {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+  }
+}
+
+/* =========================================================================
+   STICKY HEADER & NAVBAR STYLES
+   - Posisikan sticky top 0 dengan z-index 1000
+   - Background putih solid opaque (#ffffff) & bayangan halus
+   ========================================================================= */
+.sticky-header-navbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  width: 100% !important;
+}
+
+/* Elevate modal dialogs and drawers above the sticky header (z-index 1000) */
+.fixed.inset-0.z-50,
+.fixed.inset-0.z-40 {
+  z-index: 1100 !important;
+}
+
+/* =========================================================================
+   PROFILE DROPDOWN RESPONSIVE ALIGNMENT & OVERFLOW SAFEGUARDS
+   - Pastikan menu dropdown profil menggunakan position: absolute; right: 0;
+   - Batasi max-width: calc(100vw - 24px) agar tidak terpotong tepi layar mobile
+   ========================================================================= */
+.profile-dropdown-menu {
+  position: absolute !important;
+  right: 0 !important;
+  max-width: calc(100vw - 24px) !important;
+  box-sizing: border-box !important;
+}
+
+/* =========================================================================
+   ROOT ENFORCEMENT: UNIVERSAL INTERACTIVE CURSOR (POINTER)
+   Pastikan kursor tangan (cursor: pointer) aktif secara menyeluruh
+   di setiap tombol, link, tab, filter, modal button, dan kontrol form.
+   ========================================================================= */
+button,
+a,
+[role="button"],
+select,
+summary,
+input[type="checkbox"],
+input[type="radio"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="file"],
+label[for],
+label:has(input[type="checkbox"]),
+label:has(input[type="radio"]),
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"],
+input:disabled,
+select:disabled,
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+}

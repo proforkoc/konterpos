@@ -1,0 +1,77 @@
+{
+  "entities": {
+    "StokAksesoris": {
+      "title": "StokAksesoris",
+      "description": "Katalog dan stok produk aksesoris dan sparepart konter",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "brand": { "type": "string" },
+        "variant": { "type": "string" },
+        "costPrice": { "type": "number" },
+        "sellingPrice": { "type": "number" },
+        "stock": { "type": "number" },
+        "minStockAlert": { "type": "number" },
+        "isImeiTracked": { "type": "boolean" },
+        "unit": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["code", "name", "sellingPrice", "stock"]
+    },
+    "HpImei": {
+      "title": "HpImei",
+      "description": "Katalog smartphone dan pelacakan unit IMEI",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "brand": { "type": "string" },
+        "model": { "type": "string" },
+        "variant": { "type": "string" },
+        "costPrice": { "type": "number" },
+        "sellingPrice": { "type": "number" },
+        "stock": { "type": "number" },
+        "minStockAlert": { "type": "number" },
+        "isImeiTracked": { "type": "boolean" },
+        "unit": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["code", "name", "sellingPrice"]
+    },
+    "HpSerial": {
+      "title": "HpSerial",
+      "description": "Nomor seri dan IMEI unit smartphone",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "phoneId": { "type": "string" },
+        "imei1": { "type": "string" },
+        "imei2": { "type": "string" },
+        "serialNumber": { "type": "string" },
+        "color": { "type": "string" },
+        "ramStorage": { "type": "string" },
+        "status": { "type": "string", "enum": ["available", "sold"] },
+        "purchasePrice": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["imei1", "status"]
+    }
+  },
+  "firestore": {
+    "/stok_aksesoris/{accessoryId}": {
+      "schema": { "$ref": "#/entities/StokAksesoris" },
+      "description": "Koleksi data stok produk aksesoris toko"
+    },
+    "/hp_imei/{phoneId}": {
+      "schema": { "$ref": "#/entities/HpImei" },
+      "description": "Koleksi smartphone yang dilacak dengan IMEI"
+    },
+    "/hp_imei/{phoneId}/serials/{serialId}": {
+      "schema": { "$ref": "#/entities/HpSerial" },
+      "description": "Sub-koleksi unit fisik dan nomor IMEI tiap handphone"
+    }
+  }
+}
